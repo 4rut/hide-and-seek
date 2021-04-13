@@ -1,17 +1,51 @@
 import pygame
 import os
+from random import random
+
+from random import shuffle, randrange
+
 
 this_path = os.getcwd()
 
 pygame.init()
 
-win_width = 800
-win_height = 600
 
-clock = pygame.time.Clock()
+class Window:
+    def __init__(self, win_width=800, win_height=600):
+        # Размеры ркна
+        self.win_width = win_width
+        self.win_height = win_height
 
-win = pygame.display.set_mode((win_width, win_height))
-pygame.display.set_caption("Прятки")
+        # Название окна
+        pygame.display.set_caption("Прятки")
+
+        # Создание окна
+        self.win = pygame.display.set_mode((win_width, win_height))
+
+        # Счетчик кадров
+        self.animCount = 0
+
+
+class Player:
+    def __init__(self, x=50, y=50, w=60, h=71, speed=5):
+        # Скорость
+        self.speed = speed
+
+        # Координаты
+        self.x = x
+        self.y = y
+
+        # Размеры
+        self.w = w
+        self.h = h
+
+        # В какую сторону смотрит
+        self.pos_left = False
+        self.pos_right = False
+
+
+window = Window(800, 600)
+
 
 walkRight = [pygame.image.load(this_path + r'\animations\player\pygame_right_1.png'),
              pygame.image.load(this_path + r'\animations\player\pygame_right_3.png'),
@@ -30,39 +64,31 @@ walkLeft = [pygame.image.load(this_path + r'\animations\player\pygame_left_1.png
 playerStand = pygame.image.load(this_path + r'\animations\player\pygame_idle.png')
 
 
-speed = 5
-pos_x = 50
-pos_y = 50
-width = 60
-height = 71
-
-left = False
-right = False
-animCount = 0
+trump = Player()
 
 
-def draw():
-    global animCount
-    win.fill((255, 153, 51))
+def draw_window():
+    global window
+    window.win.fill((255, 153, 51))
 
-    if animCount + 1 >= 30:
-        animCount = 0
+    if window.animCount + 1 >= 30:
+        window.animCount = 0
 
-    if left:
-        win.blit(walkLeft[animCount // 5], (pos_x, pos_y))
-        animCount += 1
-    elif right:
-        win.blit(walkRight[animCount // 5], (pos_x, pos_y))
-        animCount += 1
+    if trump.pos_left:
+        window.win.blit(walkLeft[window.animCount // 5], (trump.x, trump.y))
+        window.animCount += 1
+    elif trump.pos_right:
+        window.win.blit(walkRight[window.animCount // 5], (trump.x, trump.y))
+        window.animCount += 1
     else:
-        win.blit(playerStand, (pos_x, pos_y))
+        window.win.blit(playerStand, (trump.x, trump.y))
 
     pygame.display.update()
 
 
 run = True
 while run:
-    clock.tick(30)
+    pygame.time.Clock().tick(30)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -70,29 +96,26 @@ while run:
 
     keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_LEFT] and pos_x > speed:
-        pos_x -= speed
+    if keys[pygame.K_LEFT] and trump.x > trump.speed:
+        trump.x -= trump.speed
+        trump.pos_left = True
+        trump.pos_right = False
+    elif keys[pygame.K_RIGHT] and trump.x < window.win_width - trump.speed - trump.w:
+        trump.x += trump.speed
 
-        left = True
-        right = False
-
-    elif keys[pygame.K_RIGHT] and pos_x < win_width - speed - width:
-        pos_x += speed
-
-        left = False
-        right = True
-
+        trump.pos_left = False
+        trump.pos_right = True
     else:
-        left = False
-        right = 0
-        animCount = 0
+        trump.pos_left = False
+        trump.pos_right = False
+        window.animCount = 0
 
-    if keys[pygame.K_UP] and pos_y > speed:
-        pos_y -= speed
+    if keys[pygame.K_UP] and trump.y > trump.speed:
+        trump.y -= trump.speed
 
-    if keys[pygame.K_DOWN] and pos_y < win_height - speed - height:
-        pos_y += speed
+    if keys[pygame.K_DOWN] and trump.y < window.win_height - trump.speed - trump.h:
+        trump.y += trump.speed
 
-    draw()
+    draw_window()
 
 pygame.quit()
