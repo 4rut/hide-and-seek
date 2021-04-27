@@ -1,8 +1,6 @@
 import pygame
 import os
-import random
-
-this_path = os.getcwd()
+import array
 
 pygame.init()
 
@@ -12,13 +10,10 @@ class Window:
         # Размеры ркна
         self.win_width = win_width
         self.win_height = win_height
-
         # Название окна
         pygame.display.set_caption("Прятки")
-
         # Создание окна
         self.win = pygame.display.set_mode((win_width, win_height))
-
         # Счетчик кадров
         self.animCount = 0
 
@@ -27,19 +22,18 @@ class Player:
     def __init__(self, x=50, y=50, w=60, h=71, speed=5):
         # Скорость
         self.speed = speed
-
         # Координаты
         self.x = x
         self.y = y
-
         # Размеры
         self.w = w
         self.h = h
-
         # В какую сторону смотрит
         self.pos_left = False
         self.pos_right = False
 
+
+this_path = os.getcwd()
 
 window = Window(800, 600)
 
@@ -65,15 +59,15 @@ trump = Player(speed=5)
 
 # создание лабиринта
 grid = [[1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
+        [0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
+        [0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
+        [1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
         [1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
         [1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
         [1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
@@ -88,14 +82,14 @@ def draw_window():
     # заливка фона
     window.win.fill((255, 153, 51))
 
-    # прорисока лабиринта по сетке grid
+    # прорисовка лабиринта по сетке grid
     for i in range(20):
         for j in range(15):
             if not grid[j][i]:
-                pygame.draw.rect(window.win, (255, 255, 255), (i * 40, j * 40, 40, 40))
+                pygame.draw.rect(window.win, (100, 100, 100), (i * 40, j * 40, 40, 40))
 
-    # проверка синхронизации анимаций с кадрами
     if window.animCount + 1 >= 30:
+        # проверка синхронизации анимаций с кадрами
         window.animCount = 0
 
     # поворот модельки игрока
@@ -107,8 +101,6 @@ def draw_window():
         window.animCount += 1
     else:
         window.win.blit(playerStand, (trump.x, trump.y))
-
-    print(window.win.get_at((trump.x, trump.y)))
 
     # смена кадра
     pygame.display.update()
@@ -129,29 +121,49 @@ while run:
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_LEFT] and trump.x > trump.speed:
-        trump.x -= trump.speed
-        trump.pos_left = True
-        trump.pos_right = False
+        grid_check_x = trump.x // 40
+        grid_check_y_1 = trump.y // 40
+        grid_check_y_2 = (trump.y + trump.h) // 40
+        grid_check_y_3 = (trump.y + trump.h // 2) // 40
+
+        if grid[grid_check_y_1][grid_check_x] and grid[grid_check_y_2][grid_check_x] and grid[grid_check_y_3][
+            grid_check_x]:
+            trump.x -= trump.speed
+            trump.pos_left = True
+            trump.pos_right = False
+
     elif keys[pygame.K_RIGHT] and trump.x < window.win_width - trump.speed - trump.w:
-        trump.x += trump.speed
-        trump.pos_left = False
-        trump.pos_right = True
+        grid_check_x = (trump.x + trump.w) // 40
+        grid_check_y_1 = trump.y // 40
+        grid_check_y_2 = (trump.y + trump.h) // 40
+        grid_check_y_3 = (trump.y + trump.h // 2) // 40
+
+        if grid[grid_check_y_1][grid_check_x] and grid[grid_check_y_2][grid_check_x] and grid[grid_check_y_3][
+            grid_check_x]:
+            trump.x += trump.speed
+            trump.pos_left = False
+            trump.pos_right = True
     else:
         trump.pos_left = False
         trump.pos_right = False
         window.animCount = 0
 
     if keys[pygame.K_UP] and trump.y > trump.speed:
-        trump.y -= trump.speed
+        grid_check_x = (trump.x + trump.w // 2) // 40
+        grid_check_y = trump.y // 40
 
-    #print('1. x: ', trump.x, '\ty:', trump.y)
+        if grid[grid_check_y][grid_check_x]:
+            trump.y -= trump.speed
 
     if keys[pygame.K_DOWN] and trump.y < window.win_height - trump.speed - trump.h:
-        if window.win.get_at((trump.x + (trump.w // 2), trump.y - trump.speed + trump.h)) != pygame.Color(255, 153, 51):
+        grid_check_x = (trump.x + trump.w // 2) // 40
+
+        grid_check_y = (trump.y + trump.h) // 40
+
+        if grid[grid_check_y][grid_check_x]:
             trump.y += trump.speed
 
-    #print('2. x: ', trump.x, '\ty:', trump.y)
-
     draw_window()
+    pygame.draw.rect(window.win, (0, 0, 0), (trump.x + (trump.w // 2), trump.y - trump.speed + trump.h, 20, 20))
 
 pygame.quit()
