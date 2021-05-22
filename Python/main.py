@@ -1,78 +1,14 @@
 import pygame
-import os
-import array
 
-pygame.init()
+from window import Window
+from player import Player
+from grid import grid
 
-
-class Window:
-    def __init__(self, win_width=800, win_height=600):
-        # Размеры ркна
-        self.win_width = win_width
-        self.win_height = win_height
-        # Название окна
-        pygame.display.set_caption("Прятки")
-        # Создание окна
-        self.win = pygame.display.set_mode((win_width, win_height))
-        # Счетчик кадров
-        self.animCount = 0
-
-
-class Player:
-    def __init__(self, x=50, y=50, w=60, h=71, speed=5):
-        # Скорость
-        self.speed = speed
-        # Координаты
-        self.x = x
-        self.y = y
-        # Размеры
-        self.w = w
-        self.h = h
-        # В какую сторону смотрит
-        self.pos_left = False
-        self.pos_right = False
-
-
-this_path = os.getcwd()
+import player_img
 
 window = Window(800, 600)
 
-# анимации ходьбы
-walkRight = [pygame.image.load(this_path + r'\animations\player\pygame_right_1.png'),
-             pygame.image.load(this_path + r'\animations\player\pygame_right_3.png'),
-             pygame.image.load(this_path + r'\animations\player\pygame_right_4.png'),
-             pygame.image.load(this_path + r'\animations\player\pygame_right_2.png'),
-             pygame.image.load(this_path + r'\animations\player\pygame_right_5.png'),
-             pygame.image.load(this_path + r'\animations\player\pygame_right_6.png')]
-
-walkLeft = [pygame.image.load(this_path + r'\animations\player\pygame_left_1.png'),
-            pygame.image.load(this_path + r'\animations\player\pygame_left_2.png'),
-            pygame.image.load(this_path + r'\animations\player\pygame_left_3.png'),
-            pygame.image.load(this_path + r'\animations\player\pygame_left_4.png'),
-            pygame.image.load(this_path + r'\animations\player\pygame_left_5.png'),
-            pygame.image.load(this_path + r'\animations\player\pygame_left_6.png')]
-
-playerStand = pygame.image.load(this_path + r'\animations\player\pygame_idle.png')
-
-# создание игрока
 trump = Player(speed=5)
-
-# создание лабиринта
-grid = [[1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0],
-        [1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0]]
 
 
 # прорисовка окна
@@ -94,13 +30,13 @@ def draw_window():
 
     # поворот модельки игрока
     if trump.pos_left:
-        window.win.blit(walkLeft[window.animCount // 5], (trump.x, trump.y))
+        window.win.blit(player_img.walkLeft[window.animCount // 5], (trump.x, trump.y))
         window.animCount += 1
     elif trump.pos_right:
-        window.win.blit(walkRight[window.animCount // 5], (trump.x, trump.y))
+        window.win.blit(player_img.walkRight[window.animCount // 5], (trump.x, trump.y))
         window.animCount += 1
     else:
-        window.win.blit(playerStand, (trump.x, trump.y))
+        window.win.blit(player_img.playerStand, (trump.x, trump.y))
 
     # смена кадра
     pygame.display.update()
