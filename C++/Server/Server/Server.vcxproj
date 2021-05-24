@@ -73,6 +73,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)/include;$(IncludePath)</IncludePath>
+    <PublicIncludeDirectories>E:\hide and seek\C++\Server\Server\include</PublicIncludeDirectories>
+    <PublicModuleDirectories>E:\hide and seek\C++\Server\Server\include</PublicModuleDirectories>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

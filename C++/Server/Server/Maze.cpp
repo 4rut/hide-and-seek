@@ -87,8 +87,10 @@ Maze::Maze()
 
 	for (int y = 0; y < GRID_HEIGHT; ++y)
 		for (int x = 0; x < GRID_WIDTH; ++x)
-			if(gridChar[XYToIndex(x, y)] == '#')
+			if (gridChar[XYToIndex(x, y)] == '#')
 				gridInt[y][x] = 1;
-			else
+			else if (gridChar[XYToIndex(x, y)] == ' ')
 				gridInt[y][x] = 0;
+			else
+				throw"";
 }

@@ -18,4 +18,9 @@ void Lobby::generateRoomId()
 Lobby::Lobby()
 {
 	generateRoomId();
+	data["roomId"] = roomId;
+
+	for (int i = 0; i < 15; i++)
+		for (int j = 0; j < 20; j++)
+			data["maze"][i][j] = maze.gridInt[i][j];
 }

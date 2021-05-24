@@ -6,8 +6,11 @@
 
 #include <json/json.hpp>
 
+
 using json = nlohmann::json;
 
+
+#define ROOM_ID_LENGTH 6
 
 class Lobby : private Maze
 {
@@ -21,10 +24,11 @@ private:
 									  'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 	void generateRoomId();
 
-	const int ROOM_ID_LENGTH = 6;
+
 public:
 	Lobby();
 	std::string roomId;
+	json data;
 
 };
 
