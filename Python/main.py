@@ -11,6 +11,7 @@ import player_img
 res = requests.get('http://localhost:1234').content.decode("utf8")
 data = json.loads(res)
 
+
 window = Window(800, 600)
 
 trump = Player(w=24, h=36, speed=5)
@@ -18,14 +19,12 @@ trump = Player(w=24, h=36, speed=5)
 # работа окна
 run = True
 while run:
-    # настройка тикрейта
     pygame.time.Clock().tick(30)
 
 #    res = requests.get('http://localhost:1234').content.decode("utf8")
 #    data = json.loads(res)
 #    print(data)
 
-    # проверка выхода
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False

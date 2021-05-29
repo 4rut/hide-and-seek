@@ -3,7 +3,8 @@ import os
 
 this_path = os.getcwd()
 
-# анимации ходьбы
+overview = pygame.image.load(this_path + r'\animations\overview\overview.png')
+
 walkRight = [pygame.image.load(this_path + r'\animations\player\pygame_right_1.png'),
              pygame.image.load(this_path + r'\animations\player\pygame_right_3.png'),
              pygame.image.load(this_path + r'\animations\player\pygame_right_4.png'),
