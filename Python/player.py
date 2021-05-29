@@ -1,5 +1,5 @@
 class Player:
-    def __init__(self, x=50, y=50, w=60, h=71, speed=5):
+    def __init__(self, x=0, y=0, w=60, h=71, speed=5):
         # Скорость
         self.speed = speed
         # Координаты

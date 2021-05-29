@@ -6,8 +6,11 @@
 
 #include <json/json.hpp>
 
+#include "include/cpp_httplib/httplib.h"
+
 
 using json = nlohmann::json;
+using namespace httplib;
 
 
 #define ROOM_ID_LENGTH 6
@@ -23,7 +26,6 @@ private:
 									  'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 
 									  'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 	void generateRoomId();
-
 
 public:
 	Lobby();

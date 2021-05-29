@@ -9,7 +9,7 @@ def movement_logic(curr_window: Window, curr_player: Player, keys):
     if keys[pygame.K_LEFT] and curr_player.x > curr_player.speed:
         grid_check_x = curr_player.x // 40
         grid_check_y_1 = curr_player.y // 40
-        grid_check_y_2 = (curr_player.y + curr_player.h) // 40
+        grid_check_y_2 = (curr_player.y + curr_player.h - 10) // 40
         grid_check_y_3 = (curr_player.y + curr_player.h // 2) // 40
 
         if grid[grid_check_y_1][grid_check_x] and grid[grid_check_y_2][grid_check_x] and grid[grid_check_y_3][
