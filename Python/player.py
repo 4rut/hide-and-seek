@@ -1,5 +1,7 @@
 class Player:
-    def __init__(self, x=0, y=0, w=60, h=71, speed=5):
+    def __init__(self, x=0, y=0, w=60, h=71, speed=5, name='player'):
+        self.name = name
+
         self.speed = speed
 
         self.x = 0
@@ -13,6 +15,8 @@ class Player:
 
         self.pos_left = False
         self.pos_right = False
+
+        self.is_dead = True
 
     def refresh_center_pos(self):
         self.center_x = self.x + (self.w // 2)

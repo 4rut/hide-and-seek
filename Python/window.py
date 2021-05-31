@@ -1,4 +1,5 @@
 import pygame
+import json
 
 from player import Player
 from grid import grid
@@ -17,7 +18,7 @@ class Window:
         self.animCount = 0
 
 
-def draw_window(curr_window: Window, curr_player: Player):
+def draw_window(curr_window: Window, curr_player: Player, data: json):
     curr_window.win.fill((255, 153, 51))
 
     for i in range(20):
@@ -37,6 +38,11 @@ def draw_window(curr_window: Window, curr_player: Player):
     else:
         curr_window.win.blit(player_img.playerStand, (curr_player.x, curr_player.y))
 
-    curr_window.win.blit(player_img.overview, (curr_player.center_x - 800, curr_player.center_y - 600))
+    if curr_player.is_dead:
+        curr_window.win.blit(player_img.overview, (curr_player.center_x - 800, curr_player.center_y - 600))
+
+    else:
+        curr_player.x = curr_window.win_width - 40
+        curr_player.y = 0
 
     pygame.display.update()

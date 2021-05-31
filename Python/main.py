@@ -30,9 +30,9 @@ def game_window(window: Window, trump: Player):
     while run:
         pygame.time.Clock().tick(30)
 
-    #    res = requests.get('http://localhost:1234').content.decode("utf8")
-    #    data = json.loads(res)
-    #    print(data)
+        res = requests.get('http://localhost:1234').content.decode("utf8")
+        data = json.loads(res)
+        #print(data)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -42,16 +42,15 @@ def game_window(window: Window, trump: Player):
 
         srv.send_data(srv, trump)
 
-        draw_window(window, trump)
+        draw_window(window, trump, data)
 
     pygame.quit()
 
 
 if __name__ == '__main__':
     srv = MyServer
-
-    webServer = HTTPServer(('localhost', 5001), srv)
-    print("Server started http://%s:%s" % ('localhost', 5001))
+    webServer = HTTPServer(('localhost', 1234 + 1), srv)
+    print("Server started http://%s:%s" % ('localhost', 1234 + data["number_of_players"] + 1))
 
     th_srv = threading.Thread(target=webServer.serve_forever)
     try:

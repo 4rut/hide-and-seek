@@ -14,8 +14,11 @@ class MyServer(BaseHTTPRequestHandler):
     def send_data(self, player: Player):
         self.data = json.loads('{}')
 
+        self.data['player_name'] = player.name
+
         self.data['player_pos_x'] = player.x
         self.data['player_pos_y'] = player.y
 
         self.data['player_is_left'] = player.pos_left
         self.data['player_is_right'] = player.pos_right
+

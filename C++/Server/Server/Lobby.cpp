@@ -1,7 +1,7 @@
 #include <iostream>
+#include <thread>
 #include <string>
 #include <cstdlib>
-#include <vector>
 
 #include <json/json.hpp>
 #include "include/cpp_httplib/httplib.h"
@@ -10,7 +10,6 @@
 
 using json = nlohmann::json;
 using namespace httplib;
-
 
 void Lobby::generateRoomId()
 {
@@ -22,7 +21,6 @@ void Lobby::generateRoomId()
 	roomId = tmp;
 }
 
-
 Lobby::Lobby()
 {
 	generateRoomId();
@@ -32,30 +30,37 @@ Lobby::Lobby()
 		for (int j = 0; j < 20; j++)
 			data["maze"][i][j] = maze.gridInt[i][j];
 
-	data["number_of_players"] = 0;
+	data["number_of_players"] = 1;
+	data["is_room_empty"] = true;
 	data["players"] = {};
-
 }
-	
+
 void Lobby::ddos_cli() 
 {
-		
-}
-
-void Lobby::connect_to_players()
-{
-	for (int i = 1; i <= 5; i++)
+	while (true)
 	{
-		try
-		{
-			Client cli(("http://localhost:" + std::to_string(1234 + i)).c_str());
-			players.push_back(cli);
+		if (try_to_connect)
+			try 
+			{
+				auto res = player1.Get("/");
+				std::cout << res->status;
+				if (res->status == 200) 
+				{
+					std::string tmp_str = res->body;
+					std::string tmp_str_clear;
+					
+					// Json has extra '/' characters. This crutch removes them and saves them to a new variable
+					for(int i = 0; i < tmp_str.length(); i++)
+					if (tmp_str[i] != char(34) && tmp_str[i] != '\\')
+						tmp_str_clear += tmp_str[i];
+					
+					json tmp_json = tmp_str_clear;
 
-			std::cout << "Connected to " << "http://localhost:" << std::to_string(1234 + i);
-		}
-		catch (int)
-		{
-			std::cerr << "Connection failed to " << "http://localhost:" << std::to_string(1234 + i);
-		}
+					data["players"]["player1"] = tmp_json;
+				}
+			}
+			catch (int x) {}
 	}
+
 }
+

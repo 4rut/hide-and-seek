@@ -26,14 +26,29 @@ private:
 									  'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 
 									  'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 	void generateRoomId();
-	std::vector<Client> players;
+	
+
+
+
 
 public:
 	Lobby();
+	
 	std::string roomId;
-	json data;
+	json data = {};
+	int try_to_connect = 0;
 	void ddos_cli();
-	void connect_to_players();
 
+	// Clients
+	// 1. Arrays does no working
+	// 2. The constructor does not work with an equal sign
+	// 3. The parenthesized declaration creates a function
+	// 4. I love cpp <3
+
+	Client player1{ "http://localhost:1235" };
+	Client player2{ "http://localhost:1236" };
+	Client player3{ "http://localhost:1237" };
+	Client player4{ "http://localhost:1238" };
+	Client player5{ "http://localhost:1239" };
 };
 

@@ -16,11 +16,14 @@ using namespace httplib;
 
 Lobby lobby;
 
-void gen_response(const Request& req, Response& res) 
+void gen_response(const Request& req, Response& res)
 {
 	lobby.data["number_of_players"] = lobby.data["number_of_players"] + 1;
 	std::cout << lobby.data["number_of_players"] << "\n";
-	res.set_content(lobby.data.dump() ,"application/json; charset=UTF-8");
+	res.set_content(lobby.data.dump(), "application/json; charset=UTF-8");
+
+	lobby.try_to_connect++;
+
 }
 
 int main()
@@ -30,11 +33,14 @@ int main()
 
 	std::cout << lobby.roomId << std::endl;
 	
-	svr.Get(("/")/* + lobby.roomId).c_str()*/, gen_response);
-
-	lobby.ddos_cli();
+	// svr.Get(("/")/* + lobby.roomId).c_str()*/, gen_response);
+	std::thread th1([&]() {
+		lobby.ddos_cli();
+		});
 
 	std::cout << "Start server... OK\n";
 	svr.listen("localhost", 1234);
+	
+	th1.detach();
 	return 0;
 }
