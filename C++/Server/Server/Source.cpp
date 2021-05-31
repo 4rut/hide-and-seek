@@ -34,7 +34,6 @@ int main()
 
 	std::cout << lobby.roomId << std::endl;
 	
-	// svr.Get(("/")/* + lobby.roomId).c_str()*/, gen_response);
 	std::thread th1([&]() {
 		lobby.ddos_cli();
 		});
