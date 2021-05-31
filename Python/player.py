@@ -1,5 +1,5 @@
 class Player:
-    def __init__(self, x=0, y=0, w=60, h=71, speed=5, name='player'):
+    def __init__(self, x=0, y=0, w=60, h=71, speed=5, name='Player'):
         self.name = name
 
         self.speed = speed
@@ -13,8 +13,8 @@ class Player:
         self.w = w
         self.h = h
 
-        self.pos_left = False
-        self.pos_right = False
+        self.pos_left = 0
+        self.pos_right = 0
 
         self.is_dead = True
 

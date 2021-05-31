@@ -18,14 +18,16 @@ from grid import grid
 res = requests.get('http://localhost:1234').content.decode("utf8")
 data = json.loads(res)
 
+number_of_players = data['number_of_players']
+number_of_players_now = data['number_of_players_now']
 
 window = Window(800, 600)
 
-trump = Player(w=24, h=36, speed=5)
+trump = Player(w=24, h=36, speed=5, name=('Player' + str(number_of_players_now + 1)))
 
 
 def game_window(window: Window, trump: Player):
-    # работа окна
+
     run = True
     while run:
         pygame.time.Clock().tick(30)
@@ -48,9 +50,16 @@ def game_window(window: Window, trump: Player):
 
 
 if __name__ == '__main__':
+
     srv = MyServer
-    webServer = HTTPServer(('localhost', 1234 + 1), srv)
-    print("Server started http://%s:%s" % ('localhost', 1234 + data["number_of_players"] + 1))
+    PORT = number_of_players_now + 1234 + 1
+
+    srv.send_data(srv, number_of_players=2, number_of_players_now=data['number_of_players_now'] + 1)
+
+    print()
+    webServer = HTTPServer(('localhost', PORT), srv)
+
+    print("Server started http://%s:%s" % ('localhost', PORT))
 
     th_srv = threading.Thread(target=webServer.serve_forever)
     try:

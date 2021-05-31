@@ -38,6 +38,19 @@ def draw_window(curr_window: Window, curr_player: Player, data: json):
     else:
         curr_window.win.blit(player_img.playerStand, (curr_player.x, curr_player.y))
 
+    print(data)
+
+    if data['number_of_players_now'] != 0:
+        for player in data['players']:
+            print(player)
+            if player['player_is_left']:
+                curr_window.win.blit(player_img.walkLeft[curr_window.animCount // 5], (player['player_pos_x'], player['player_pos_y']))
+            elif player['player_is_right']:
+                curr_window.win.blit(player_img.walkRight[curr_window.animCount // 5], (player['player_pos_x'], player['player_pos_y']))
+                curr_window.animCount += 1
+            else:
+                curr_window.win.blit(player_img.playerStand, (player['player_pos_x'], player['player_pos_y']))
+
     if curr_player.is_dead:
         curr_window.win.blit(player_img.overview, (curr_player.center_x - 800, curr_player.center_y - 600))
 

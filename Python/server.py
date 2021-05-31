@@ -11,7 +11,7 @@ class MyServer(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(bytes(json.dumps(self.data), "utf-8"))
 
-    def send_data(self, player: Player):
+    def send_data(self, player=Player(), number_of_players=2, number_of_players_now=1):
         self.data = json.loads('{}')
 
         self.data['player_name'] = player.name
@@ -21,4 +21,7 @@ class MyServer(BaseHTTPRequestHandler):
 
         self.data['player_is_left'] = player.pos_left
         self.data['player_is_right'] = player.pos_right
+
+        self.data['number_of_players'] = number_of_players
+        self.data['number_of_players_now'] = number_of_players_now
 

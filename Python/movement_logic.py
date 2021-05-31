@@ -15,8 +15,8 @@ def movement_logic(curr_window: Window, curr_player: Player, keys):
         if grid[grid_check_y_1][grid_check_x] and grid[grid_check_y_2][grid_check_x] and grid[grid_check_y_3][
             grid_check_x]:
             curr_player.x -= curr_player.speed
-            curr_player.pos_left = True
-            curr_player.pos_right = False
+            curr_player.pos_left = 1
+            curr_player.pos_right = 0
             curr_player.refresh_center_pos()
 
     elif keys[pygame.K_RIGHT] and curr_player.x < curr_window.win_width - curr_player.speed - curr_player.w:
@@ -28,13 +28,13 @@ def movement_logic(curr_window: Window, curr_player: Player, keys):
         if grid[grid_check_y_1][grid_check_x] and grid[grid_check_y_2][grid_check_x] and grid[grid_check_y_3][
             grid_check_x]:
             curr_player.x += curr_player.speed
-            curr_player.pos_left = False
-            curr_player.pos_right = True
+            curr_player.pos_left = 0
+            curr_player.pos_right = 1
             curr_player.refresh_center_pos()
 
     else:
-        curr_player.pos_left = False
-        curr_player.pos_right = False
+        curr_player.pos_left = 0
+        curr_player.pos_right = 0
         curr_window.animCount = 0
 
     if keys[pygame.K_UP] and curr_player.y > curr_player.speed:

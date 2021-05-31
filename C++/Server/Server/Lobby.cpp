@@ -31,36 +31,125 @@ Lobby::Lobby()
 			data["maze"][i][j] = maze.gridInt[i][j];
 
 	data["number_of_players"] = 1;
-	data["is_room_empty"] = true;
+	data["number_of_players_now"] = 0;
 	data["players"] = {};
 }
 
-void Lobby::ddos_cli() 
+void Lobby::ddos_cli()
 {
 	while (true)
 	{
-		if (try_to_connect)
-			try 
+		if (try_to_connect) {
+			if (try_to_connect <= 1) 
 			{
-				auto res = player1.Get("/");
-				std::cout << res->status;
-				if (res->status == 200) 
-				{
-					std::string tmp_str = res->body;
-					std::string tmp_str_clear;
+				try {
+					auto res = player1.Get("/");
 					
-					// Json has extra '/' characters. This crutch removes them and saves them to a new variable
-					for(int i = 0; i < tmp_str.length(); i++)
-					if (tmp_str[i] != char(34) && tmp_str[i] != '\\')
-						tmp_str_clear += tmp_str[i];
-					
-					json tmp_json = tmp_str_clear;
+					if (res->status == 200)
+					{
+						std::string tmp_str = res->body;
+						std::string tmp_str_clear;
 
-					data["players"]["player1"] = tmp_json;
+						json tmp_json = json::parse(tmp_str);
+				
+						data["players"]["player1"] = tmp_json;
+						data["number_of_players_now"] = tmp_json["number_of_players_now"];
+						
+						if (tmp_json["number_of_players"] > 1)
+							try_to_connect++;
+					}
 				}
+				catch (int x) {}
 			}
-			catch (int x) {}
-	}
 
+			if (try_to_connect >= 2)
+			{
+				try {
+					auto res = player2.Get("/");
+
+					if (res->status == 200)
+					{
+						std::string tmp_str = res->body;
+						std::string tmp_str_clear;
+
+						json tmp_json = json::parse(tmp_str);
+
+						data["players"]["player2"] = tmp_json;
+						data["number_of_players_now"] = tmp_json["number_of_players_now"];
+
+						if (tmp_json["number_of_players"] > 2)
+							try_to_connect++;
+					}
+				}
+			catch (int x) {}
+		}
+
+			if (try_to_connect >= 3)
+			{
+				try {
+					auto res = player3.Get("/");
+	
+					if (res->status == 200)
+					{
+						std::string tmp_str = res->body;
+						std::string tmp_str_clear;
+
+						json tmp_json = json::parse(tmp_str);
+
+						data["players"]["player3"] = tmp_json;
+						data["number_of_players_now"] = tmp_json["number_of_players_now"];
+
+						if (tmp_json["number_of_players"] > 3)
+							try_to_connect++;
+					}
+				}
+				catch (int x) {}
+			}
+
+			if (try_to_connect >= 4) 
+			{
+				try {
+					auto res = player4.Get("/");
+						
+					if (res->status == 200)
+					{
+						std::string tmp_str = res->body;
+						std::string tmp_str_clear;
+
+						json tmp_json = json::parse(tmp_str);
+
+						data["players"]["player4"] = tmp_json;
+						data["number_of_players_now"] = tmp_json["number_of_players_now"];
+
+						if (tmp_json["number_of_players"] > 4)
+							try_to_connect++;
+					}
+				}
+				catch (int x) {}
+			}
+
+			if (try_to_connect >= 5) 
+			{
+				try {
+					auto res = player5.Get("/");
+
+					if (res->status == 200)
+					{
+						std::string tmp_str = res->body;
+						std::string tmp_str_clear;
+
+						json tmp_json = json::parse(tmp_str);
+
+						data["players"]["player5"] = tmp_json;
+						data["number_of_players_now"] = tmp_json["number_of_players_now"];
+
+						if (tmp_json["number_of_players"] > 5)
+							try_to_connect++;
+					}
+				}
+				catch (int x) {}
+			}
+		}
+	}
 }
 
