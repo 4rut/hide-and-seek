@@ -3,6 +3,7 @@ import requests
 import json
 import threading
 
+import game
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from server import MyServer
@@ -15,48 +16,16 @@ from window import Window, draw_window
 from grid import grid
 
 
-res = requests.get('http://localhost:1234').content.decode("utf8")
-data = json.loads(res)
-
-number_of_players = data['number_of_players']
-number_of_players_now = data['number_of_players_now']
-
-window = Window(800, 600)
-
-trump = Player(w=24, h=36, speed=5, name=('Player' + str(number_of_players_now + 1)))
-
-
-def game_window(window: Window, trump: Player):
-
-    run = True
-    while run:
-        pygame.time.Clock().tick(30)
-
-        res = requests.get('http://localhost:1234').content.decode("utf8")
-        data = json.loads(res)
-        #print(data)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-
-        movement_logic(window, trump, pygame.key.get_pressed())
-
-        srv.send_data(srv, trump)
-
-        draw_window(window, trump, data)
-
-    pygame.quit()
-
-
 if __name__ == '__main__':
 
+    res = requests.get('http://localhost:1234').content.decode("utf8")
+    data = json.loads(res)
+
     srv = MyServer
-    PORT = number_of_players_now + 1234 + 1
+    PORT = data['number_of_players_now'] + 1234 + 1
 
-    srv.send_data(srv, number_of_players=2, number_of_players_now=data['number_of_players_now'] + 1)
+    srv.send_data(srv, number_of_players=1, number_of_players_now=data['number_of_players_now'] + 1)
 
-    print()
     webServer = HTTPServer(('localhost', PORT), srv)
 
     print("Server started http://%s:%s" % ('localhost', PORT))
@@ -67,7 +36,11 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         pass
 
-    game_window(window, trump)
+    this_player = Player()
+    number_of_player = 1
+
+    game.game_window(srv, this_player, number_of_player)
 
     th_srv.join()
+
     webServer.server_close()

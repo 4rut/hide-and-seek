@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <thread>
 
 #include "Maze.h"
 
@@ -26,10 +27,6 @@ private:
 									  'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 
 									  'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 	void generateRoomId();
-	
-
-
-
 
 public:
 	Lobby();
@@ -50,5 +47,11 @@ public:
 	Client player3{ "http://localhost:1237" };
 	Client player4{ "http://localhost:1238" };
 	Client player5{ "http://localhost:1239" };
+
+	void cli_1() {}
+	void cli_2() {}
+	void cli_3() {}
+	void cli_4() {}
+	void cli_5() {}
 };
 

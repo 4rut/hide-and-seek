@@ -1,5 +1,6 @@
 #include <iostream>
 #include <thread>
+#include <chrono>
 #include <string>
 #include <cstdlib>
 
@@ -37,26 +38,33 @@ Lobby::Lobby()
 
 void Lobby::ddos_cli()
 {
+	bool first_run = true;
+
 	while (true)
 	{
-		if (try_to_connect) {
+		if (first_run) {
+			std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+			first_run = false;
+		}
+
+			if (try_to_connect) {
 			if (try_to_connect <= 1) 
 			{
 				try {
 					auto res = player1.Get("/");
-					
+					std::cout << res->body << '\n';
+
 					if (res->status == 200)
 					{
 						std::string tmp_str = res->body;
-						std::string tmp_str_clear;
 
 						json tmp_json = json::parse(tmp_str);
-				
+
 						data["players"]["player1"] = tmp_json;
 						data["number_of_players_now"] = tmp_json["number_of_players_now"];
-						
+
 						if (tmp_json["number_of_players"] > 1)
-							try_to_connect++;
+							try_to_connect = tmp_json["number_of_players"];
 					}
 				}
 				catch (int x) {}
@@ -70,7 +78,6 @@ void Lobby::ddos_cli()
 					if (res->status == 200)
 					{
 						std::string tmp_str = res->body;
-						std::string tmp_str_clear;
 
 						json tmp_json = json::parse(tmp_str);
 
@@ -78,11 +85,14 @@ void Lobby::ddos_cli()
 						data["number_of_players_now"] = tmp_json["number_of_players_now"];
 
 						if (tmp_json["number_of_players"] > 2)
-							try_to_connect++;
+							try_to_connect = tmp_json["number_of_players"];
+
 					}
+					else
+						std::cout << "321321321321";
 				}
 			catch (int x) {}
-		}
+			}
 
 			if (try_to_connect >= 3)
 			{
@@ -92,7 +102,6 @@ void Lobby::ddos_cli()
 					if (res->status == 200)
 					{
 						std::string tmp_str = res->body;
-						std::string tmp_str_clear;
 
 						json tmp_json = json::parse(tmp_str);
 
@@ -100,7 +109,8 @@ void Lobby::ddos_cli()
 						data["number_of_players_now"] = tmp_json["number_of_players_now"];
 
 						if (tmp_json["number_of_players"] > 3)
-							try_to_connect++;
+							try_to_connect = tmp_json["number_of_players"];
+
 					}
 				}
 				catch (int x) {}
@@ -114,7 +124,6 @@ void Lobby::ddos_cli()
 					if (res->status == 200)
 					{
 						std::string tmp_str = res->body;
-						std::string tmp_str_clear;
 
 						json tmp_json = json::parse(tmp_str);
 
@@ -122,7 +131,8 @@ void Lobby::ddos_cli()
 						data["number_of_players_now"] = tmp_json["number_of_players_now"];
 
 						if (tmp_json["number_of_players"] > 4)
-							try_to_connect++;
+							try_to_connect = tmp_json["number_of_players"];
+
 					}
 				}
 				catch (int x) {}
@@ -136,7 +146,6 @@ void Lobby::ddos_cli()
 					if (res->status == 200)
 					{
 						std::string tmp_str = res->body;
-						std::string tmp_str_clear;
 
 						json tmp_json = json::parse(tmp_str);
 
@@ -144,7 +153,8 @@ void Lobby::ddos_cli()
 						data["number_of_players_now"] = tmp_json["number_of_players_now"];
 
 						if (tmp_json["number_of_players"] > 5)
-							try_to_connect++;
+							try_to_connect = tmp_json["number_of_players"];
+
 					}
 				}
 				catch (int x) {}

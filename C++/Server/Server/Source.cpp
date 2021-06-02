@@ -18,13 +18,9 @@ Lobby lobby;
 
 void gen_response(const Request& req, Response& res)
 {
-	std::cout << lobby.data["number_of_players"] << "\n";
-
-
 	res.set_content(lobby.data.dump(), "application/json; charset=UTF-8");
 	lobby.try_to_connect = 1;
-
-	//std::cout << "number_of_players: " << (int)lobby.data["number_of_players"] << '\n';
+	std::cout << "322\n";
 }
 
 int main()
